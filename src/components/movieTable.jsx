@@ -6,10 +6,17 @@ class MovieTable extends Component {
     movies: getMovies(),
   };
   render() {
+    const { movies: mv } = this.state;
+    if (mv.length === 0)
+      return (
+        <div className="alert alert-warning">
+          There are no movies at the moment
+        </div>
+      );
     return (
       <div>
         <h3>Movie suggestions</h3>
-        <p> xx movies in our rental store</p>
+        <p> {mv.length} movies in our rental store</p>
 
         <table className="table">
           <thead className="thead-dark">
@@ -29,7 +36,12 @@ class MovieTable extends Component {
                 <td>{m.numberInStock}</td>
                 <td>{m.dailyRentalRate}</td>
                 <td>
-                  <button className="btn btn-danger">Delete</button>
+                  <button
+                    onClick={() => this.deleteMovie(m._id)}
+                    className="btn btn-danger"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -38,20 +50,12 @@ class MovieTable extends Component {
       </div>
     );
   }
-  //   createTable() {
-  //     let table = document.getElementsByTagName('table');
-  //     let tableBody = document.getElementsByTagName('tbody');
-  //     this.state.movies.map((rowData) => {
-  //       let row = document.createElement('tr');
-  //       rowData.map((cellData) => {
-  //         console.log(cellData);
-  //         let cell = document.createElement('td');
-  //         cell.appendChild(document.createTextNode(cellData));
-  //         row.appendChild(cell);
-  //       });
-  //       tableBody.appendChild(row);
-  //     });
-  //   }
+  deleteMovie = (movieId) => {
+    const moviesAfterDelete = this.state.movies.filter(
+      (m) => m._id !== movieId,
+    );
+    this.setState({ movies: moviesAfterDelete });
+  };
 }
 
 export default MovieTable;
