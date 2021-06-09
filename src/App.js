@@ -4,7 +4,7 @@ import MovieTable from './components/movieTable';
 function App() {
   return (
     <div className="App">
-      <h1>yes</h1>
+      <h1>IT IS MOVIE TIME</h1>
       <MovieTable />
     </div>
   );
