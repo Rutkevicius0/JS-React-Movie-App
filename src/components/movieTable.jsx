@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { getMovies } from '../services/fakeMovieService';
+import TableRow from './rowTable';
 
 class MovieTable extends Component {
   state = {
     movies: getMovies(),
+  };
+  handleDelete = (idToDelete) => {
+    console.log(idToDelete);
+    const moviesFiltered = this.state.movies.filter(
+      (m) => idToDelete !== m._id,
+    );
+    console.log(moviesFiltered);
+    this.setState({ movies: moviesFiltered });
   };
   render() {
     const { movies: mv } = this.state;
@@ -29,22 +38,7 @@ class MovieTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((m) => (
-              <tr key={m._id}>
-                <td>{m.title}</td>
-                <td>{m.genre.name}</td>
-                <td>{m.numberInStock}</td>
-                <td>{m.dailyRentalRate}</td>
-                <td>
-                  <button
-                    onClick={() => this.deleteMovie(m._id)}
-                    className="btn btn-danger"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            <TableRow movies={this.state.movies} onDelete={this.handleDelete} />
           </tbody>
         </table>
       </div>
